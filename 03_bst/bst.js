@@ -77,6 +77,7 @@ BinarySearchTree.prototype.breadthFirstForEach = function(func) {
   }
 }
 
+
 BinarySearchTree.prototype.size = function() {
   return this.count
 }
