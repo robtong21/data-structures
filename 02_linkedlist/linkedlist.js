@@ -25,11 +25,8 @@ LinkedList.prototype.addToTail = function(value) {
 
     } else {
         this.tail = new Node(value);
-    }
-    if (!this.head) {
         this.head = this.tail;
     }
-
 }
 
 LinkedList.prototype.addToHead = function(value) {
@@ -37,45 +34,66 @@ LinkedList.prototype.addToHead = function(value) {
     if (this.head) {
         var next = this.head;
         this.head = new Node(value);
-        next.previous = this.head.next;
-        this.head.next = next.value;
+        next.previous = this.head;
+        this.head.next = next;
 
     } else {
         this.head = new Node(value);
-    }
-
-    if (!this.tail) {
         this.tail = this.head;
-
     }
-
-
 }
 
 
 LinkedList.prototype.removeHead = function() {
- 	var orighead = this.head;
-    var nexthead = this.head.next;
-    this.head = nexthead;
-    nexthead.previous = null;
-
-    return orighead.value;
+    if (this.head && this.head !== this.tail) {
+        var origHead = this.head;
+        var nextHead = this.head.next;
+        this.head = nextHead;
+        nextHead.previous = null;
+        return origHead.value;
+     } else if (this.head && this.head === this.tail) {
+            var value = this.head.value
+            this.tail = null
+            this.head = null
+            return value
+     } else {
+         return null
+     }
 }
 
 LinkedList.prototype.removeTail = function() {
- 	var origtail = this.tail;
-    var prevtail = this.tail.previous;
-    console.log(origtail);
-    console.log(prevtail);
-    this.tail = prevtail;
-
-    this.tail.next = null;
-
-    return origtail.value;
+    if (this.tail && this.tail !== this.head) {
+        var origtail = this.tail;
+        var prevtail = this.tail.previous;
+        this.tail = prevtail;
+        prevtail.next = null;
+        return origtail.value;
+    } else if (this.tail && this.tail === this.head) {
+        var val = this.tail.value
+        this.tail = null
+        this.head = null
+        return val
+    } else {
+        return null;
+    }
 }
 
 
-LinkedList.prototype.search = function() {
-
-
+LinkedList.prototype.search = function(search) {
+    var curHead = this.head
+    if (typeof search === 'function') {
+        while(curHead) {
+            if (search(curHead.value)) {
+                return curHead.value
+            }
+            curHead = curHead.next
+        }
+    }
+    while(curHead) {
+        if (curHead.value === search) {
+            return curHead.value
+        }
+        curHead = curHead.next
+    }
+    return null
 }
