@@ -68,12 +68,23 @@ BinarySearchTree.prototype.depthFirstForEach = function(func, order) {
 }
 
 BinarySearchTree.prototype.breadthFirstForEach = function(func) {
-  func(this.value)
-  if (this.left) {
-    this.left.breadthFirstForEach(func)
-  }
-  if (this.right) {
-    this.right.breadthFirstForEach(func)
+  var buffer = [this];
+  
+  while (buffer.length > 0){
+    // record values in buffer
+    buffer.forEach( (e)=>{
+      func(e.value);
+    });
+
+    // populate next batch of nodes
+    buffer = buffer.reduce( (sum,e)=>{
+      return sum.concat(e.left,e.right);
+      },[]);
+
+    // filter out 'null' elements
+    buffer = buffer.filter( (e)=>{
+      return e ? true : false;
+    });
   }
 }
 
@@ -81,3 +92,21 @@ BinarySearchTree.prototype.breadthFirstForEach = function(func) {
 BinarySearchTree.prototype.size = function() {
   return this.count
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
